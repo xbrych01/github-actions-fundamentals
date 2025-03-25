@@ -6,9 +6,15 @@ on:
         type: string
         required: true
         default: "World"
+    outputs:
+      current-time: ${{jobs.reusable-job.outputs.current-time}}
 jobs:
   reusable-job:
     runs-on: ubuntu-latest
+    outputs:
+      current-time: ${{steps.time.outputs.time}}
     steps:
       - run: echo "Hello ${{inputs.who-to-greet}}"
-    
+      - id: time
+        run: echo "time=$(date)" >> $GITHUB_OUTPUT
+        
